@@ -1,7 +1,5 @@
 import { Article } from '../types';
 
-import { Article } from '../types';
-
 // Image Reference Mapping for 22 Parts of the Constitution
 const constitutionTable = [
   { part: "Part I", subject: "Union & Its Territory", start: 1, end: 4 },
@@ -36,12 +34,56 @@ export const mockArticles: Article[] = [];
 
 // Detailed overrides for high-priority UPSC articles
 const detailedOverrides: Record<string, Partial<Article>> = {
-  "1": { title: "Article 1: Name and territory of the Union", simpleExplanation: "India, that is Bharat, shall be a Union of States. It defines the geographical foundation of the country.", keywords: ["Union of States", "Territory", "Bharat"] },
-  "14": { title: "Article 14: Equality before law", simpleExplanation: "The State shall not deny to any person equality before the law or the equal protection of the laws.", relatedIssues: "Exceptions for President/Governors, concept of 'Reasonable Classification'.", keywords: ["Equality", "Rule of Law"] },
-  "21": { title: "Article 21: Protection of life and personal liberty", simpleExplanation: "No person shall be deprived of his life or personal liberty except according to procedure established by law.", examples: "Puttaswamy case (Right to Privacy).", keywords: ["Right to Life", "Liberty", "Privacy"] },
-  "32": { title: "Article 32: Remedies for enforcement of rights", simpleExplanation: "Heart and soul of the Constitution. Gives citizens the right to move the Supreme Court to seek enforcement of Fundamental Rights.", keywords: ["Constitutional Remedies", "Writs", "Supreme Court"] },
-  "51A": { title: "Article 51A: Fundamental Duties", simpleExplanation: "Outlines the fundamental duties of citizens (e.g., respect the flag, protect the environment) added via the 42nd Amendment.", keywords: ["Fundamental Duties", "Swaran Singh Committee"] },
-  "368": { title: "Article 368: Power of Parliament to amend the Constitution", simpleExplanation: "Details the procedure by which the Parliament can amend the Constitution, subject to the 'Basic Structure' doctrine.", examples: "Kesavananda Bharati case.", keywords: ["Constitutional Amendment", "Basic Structure"] }
+  "1": { 
+    title: "Article 1: Name and territory of the Union", 
+    originalContent: `(1) India, that is Bharat, shall be a Union of States.
+(2) The States and the territories thereof shall be as specified in the First Schedule.
+(3) The territory of India shall comprise - 
+    (a) the territories of the States;
+    (b) the Union territories specified in the First Schedule; and
+    (c) such other territories as may be acquired.`,
+    simpleExplanation: "India, that is Bharat, shall be a Union of States. It defines the geographical foundation of the country.", 
+    keywords: ["Union of States", "Territory", "Bharat"] 
+  },
+  "14": { 
+    title: "Article 14: Equality before law", 
+    originalContent: `The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.`,
+    simpleExplanation: "The State shall not deny to any person equality before the law or the equal protection of the laws.", 
+    relatedIssues: "Exceptions for President/Governors, concept of 'Reasonable Classification'.", 
+    keywords: ["Equality", "Rule of Law"] 
+  },
+  "21": { 
+    title: "Article 21: Protection of life and personal liberty", 
+    originalContent: `No person shall be deprived of his life or personal liberty except according to procedure established by law.`,
+    simpleExplanation: "No person shall be deprived of his life or personal liberty except according to procedure established by law.", 
+    examples: "Puttaswamy case (Right to Privacy).", 
+    keywords: ["Right to Life", "Liberty", "Privacy"] 
+  },
+  "32": { 
+    title: "Article 32: Remedies for enforcement of rights", 
+    originalContent: `(1) The right to move the Supreme Court by appropriate proceedings for the enforcement of the rights conferred by this Part is guaranteed.
+(2) The Supreme Court shall have power to issue directions or orders or writs, including writs in the nature of habeas corpus, mandamus, prohibition, quo warranto and certiorari, whichever may be appropriate, for the enforcement of any of the rights conferred by this Part.`,
+    simpleExplanation: "Heart and soul of the Constitution. Gives citizens the right to move the Supreme Court to seek enforcement of Fundamental Rights.", 
+    keywords: ["Constitutional Remedies", "Writs", "Supreme Court"] 
+  },
+  "51A": { 
+    title: "Article 51A: Fundamental Duties", 
+    originalContent: `It shall be the duty of every citizen of India -
+(a) to abide by the Constitution and respect its ideals and institutions, the National Flag and the National Anthem;
+(b) to cherish and follow the noble ideals which inspired our national struggle for freedom;
+(c) to uphold and protect the sovereignty, unity and integrity of India;
+(d) to defend the country and render national service when called upon to do so;
+(e) to promote harmony and the spirit of common brotherhood amongst all the people of India...`,
+    simpleExplanation: "Outlines the fundamental duties of citizens (e.g., respect the flag, protect the environment) added via the 42nd Amendment.", 
+    keywords: ["Fundamental Duties", "Swaran Singh Committee"] 
+  },
+  "368": { 
+    title: "Article 368: Power of Parliament to amend the Constitution", 
+    originalContent: `Notwithstanding anything in this Constitution, Parliament may in exercise of its constituent power amend by way of addition, variation or repeal any provision of this Constitution in accordance with the procedure laid down in this article.`,
+    simpleExplanation: "Details the procedure by which the Parliament can amend the Constitution, subject to the 'Basic Structure' doctrine.", 
+    examples: "Kesavananda Bharati case.", 
+    keywords: ["Constitutional Amendment", "Basic Structure"] 
+  }
 };
 
 constitutionTable.forEach(section => {
@@ -69,7 +111,7 @@ constitutionTable.forEach(section => {
       mockArticles.push({
         id: `const_${i}`,
         title: details.title || `${section.part} - Article ${i}`,
-        originalContent: details.originalContent || `Original text and provisions for Article ${i} of the Indian Constitution.`,
+        originalContent: details.originalContent || `[Exact Text for Article ${i} is pending sync from the official gazette database. In a production app, this would fetch from a trusted JSON dataset of the Constitution.]`,
         aiSummary: details.aiSummary || `This article forms part of ${section.part}, which governs ${section.subject}.`,
         simpleExplanation: details.simpleExplanation || `This falls under the subject of "${section.subject}". Focus on understanding its role within the wider context of ${section.part}.`,
         keywords: details.keywords || [section.part, "UPSC", `Article ${i}`],

@@ -59,13 +59,42 @@ export default function Onboarding({ onComplete }: Props) {
              <label className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-3">
               <Bell className="w-4 h-4 text-emerald-400" /> Daily Notification Time
             </label>
-            <input 
-              type="time" 
-              value={notificationTime}
-              onChange={(e) => setNotificationTime(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
-            />
+            <div className="flex gap-2">
+              <select 
+                value={notificationTime.split(':')[0]}
+                onChange={(e) => {
+                  const [_, min] = notificationTime.split(':');
+                  setNotificationTime(`${e.target.value}:${min}`);
+                }}
+                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 appearance-none"
+              >
+                {Array.from({ length: 24 }).map((_, i) => {
+                  const hour24 = i.toString().padStart(2, '0');
+                  const hour12 = i === 0 ? 12 : (i > 12 ? i - 12 : i);
+                  const period = i < 12 ? 'AM' : 'PM';
+                  return (
+                    <option key={hour24} value={hour24}>
+                      {hour12.toString().padStart(2, '0')} {period}
+                    </option>
+                  );
+                })}
+              </select>
+              <select 
+                value={notificationTime.split(':')[1]}
+                onChange={(e) => {
+                  const [hour, _] = notificationTime.split(':');
+                  setNotificationTime(`${hour}:${e.target.value}`);
+                }}
+                className="w-24 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 appearance-none text-center"
+              >
+                {['00', '15', '30', '45'].map(min => (
+                  <option key={min} value={min}>{min}</option>
+                ))}
+              </select>
+            </div>
+            <p className="text-xs text-slate-500 mt-2">Time is shown in your local time zone.</p>
           </div>
+
 
           <button 
             onClick={handleComplete}

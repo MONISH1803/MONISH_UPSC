@@ -58,7 +58,15 @@ export default function Settings({ prefs, onBack, onReset }: Props) {
           </div>
           <div className="p-4 flex justify-between items-center">
             <span className="text-slate-400 text-sm">Notification Time</span>
-            <span className="text-white font-medium">{prefs.notificationTime}</span>
+            <span className="text-white font-medium">
+              {(() => {
+                const [hr, min] = prefs.notificationTime.split(':');
+                const hour = parseInt(hr, 10);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const hour12 = hour % 12 || 12;
+                return `${hour12.toString().padStart(2, '0')}:${min} ${ampm}`;
+              })()}
+            </span>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from '../types';
-import { ArrowLeft, Sparkles, BookOpen, Target, CheckCircle2, AlertCircle, Lightbulb, Bookmark, Maximize, Minimize } from 'lucide-react';
+import { ArrowLeft, Sparkles, BookOpen, Target, CheckCircle2, AlertCircle, Lightbulb, Bookmark, Maximize, Minimize, ChevronRight, Library } from 'lucide-react';
 
 interface Props {
   article: Article;
@@ -74,8 +74,21 @@ export default function ArticleDetail({ article, onBack, onMarkComplete }: Props
       )}
 
       <main className={`max-w-2xl mx-auto transition-all ${isReadingMode ? 'px-4' : ''}`}>
+        {/* Hierarchy Context */}
+        <div className={`p-6 md:p-8 md:pb-0 pb-0 flex items-center flex-wrap gap-2 text-xs md:text-sm text-slate-400 font-medium ${isReadingMode ? 'opacity-50' : ''}`}>
+          <div className="flex items-center gap-2">
+            <Library className="w-4 h-4 text-emerald-500/70" />
+            <span className="truncate">Constitution of India</span>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
+          <div className="text-slate-300 truncate">{article.part}</div>
+          <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
+          <div className="text-indigo-300 truncate">{article.subject}</div>
+        </div>
+
         {/* Title Hero */}
-        <div className="p-6 md:p-8 border-b border-slate-800 bg-slate-900/50">
+        <div className="p-6 md:p-8 border-b border-slate-800 bg-slate-900/50 mt-4 md:mt-2 relative">
+          <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-emerald-500 to-indigo-500 rounded-l-lg"></div>
           <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight leading-tight mb-6">
             {article.title}
           </h1>
@@ -95,8 +108,24 @@ export default function ArticleDetail({ article, onBack, onMarkComplete }: Props
               <BookOpen className="w-5 h-5 text-slate-400" />
               <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-widest">The Constitution States</h2>
             </div>
-            <div className={`text-slate-200 leading-relaxed font-serif whitespace-pre-wrap ${isReadingMode ? 'text-xl md:text-2xl tracking-wide leading-loose pl-4 border-l-2 border-slate-700' : 'text-base pl-4 border-l-2 border-slate-800'}`}>
-              {article.originalContent}
+            <div className={`text-slate-200 leading-relaxed font-serif ${isReadingMode ? 'text-xl md:text-2xl tracking-wide leading-loose pl-4 border-l-4 border-slate-700' : 'text-lg pl-4 border-l-2 border-slate-800'}`}>
+              {article.originalContent.split('\n').map((line, index) => {
+                let indentClass = "";
+                const trimmedLine = line.trim();
+                // Indent logic for legal clauses
+                if (trimmedLine.match(/^\([a-z]\)/)) {
+                  indentClass = "ml-8 md:ml-12";
+                } else if (trimmedLine.match(/^\([0-9]+\)/)) {
+                  indentClass = "ml-4 md:ml-6";
+                } else if (trimmedLine.match(/^[a-z]\)/) || trimmedLine.match(/^[ivxlcdm]+\)/i)) {
+                  indentClass = "ml-12 md:ml-16";
+                }
+                return (
+                  <div key={index} className={`${indentClass} mb-4`}>
+                    {trimmedLine || "\u00A0"}
+                  </div>
+                );
+              })}
             </div>
           </section>
 

@@ -10,6 +10,8 @@ export interface Article {
   originalContent: string;
   aiSummary: string;
   simpleExplanation: string;
+  part: string;
+  subject: string;
   keywords: string[];
   relevanceInfo: string;
   relatedIssues?: string;
